@@ -293,6 +293,11 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
 
+    // Touch & Pinch State Variables
+    let initialPinchDist = 0;
+    let initialPinchScale = 1.0;
+    let isPinching = false;
+
     function startDrag(e) {
         isDragging = true;
         const pos = getCanvasCoordinates(e);
@@ -313,13 +318,58 @@ document.addEventListener('DOMContentLoaded', () => {
         isDragging = false;
     }
 
+    // Touch Event Handlers (Single-finger drag & Multi-touch Pinch-Zoom)
+    function handleTouchStart(e) {
+        if (e.touches.length === 2) {
+            isPinching = true;
+            isDragging = false;
+            initialPinchDist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            initialPinchScale = state.scale;
+        } else if (e.touches.length === 1) {
+            isPinching = false;
+            startDrag(e);
+        }
+    }
+
+    function handleTouchMove(e) {
+        if (e.touches.length === 2 && isPinching) {
+            e.preventDefault();
+            const currentDist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY
+            );
+            if (initialPinchDist > 0) {
+                const scaleFactor = currentDist / initialPinchDist;
+                state.scale = Math.min(Math.max(0.1, initialPinchScale * scaleFactor), 4.0);
+                updateUIControls();
+                renderCanvas();
+            }
+        } else if (e.touches.length === 1 && !isPinching) {
+            moveDrag(e);
+        }
+    }
+
+    function handleTouchEnd(e) {
+        if (e.touches.length < 2) {
+            isPinching = false;
+            initialPinchDist = 0;
+        }
+        if (e.touches.length === 0) {
+            stopDrag();
+        }
+    }
+
     canvas.addEventListener('mousedown', startDrag);
     window.addEventListener('mousemove', moveDrag);
     window.addEventListener('mouseup', stopDrag);
 
-    canvas.addEventListener('touchstart', startDrag, { passive: false });
-    window.addEventListener('touchmove', moveDrag, { passive: false });
-    window.addEventListener('touchend', stopDrag);
+    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
+    window.addEventListener('touchcancel', handleTouchEnd);
 
     // Scroll Wheel Zoom on Canvas
     canvas.addEventListener('wheel', (e) => {

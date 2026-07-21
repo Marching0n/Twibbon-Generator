@@ -136,13 +136,33 @@ body {
         flex-direction: column;
     }
 
-    /* Place canvas on top on mobile so users see preview immediately */
+    .control-panel {
+        display: contents; /* Allows children of control-panel to re-order alongside canvas */
+    }
+
+    /* Mobile Layout Order */
+    .control-panel > .panel-card:nth-child(1) {
+        order: 1; /* Step 1: Upload Photo */
+    }
+
+    .control-panel > .panel-card:nth-child(2) {
+        order: 2; /* Step 2: Active Twibbon Frame */
+    }
+
+    .control-panel > #adjustmentsCard {
+        order: 3; /* Step 3: Adjust Photo */
+    }
+
     .canvas-viewport {
-        order: -1;
+        order: 4; /* Canvas Preview below Adjust Photo */
+    }
+
+    .control-panel > .export-card {
+        order: 5; /* Step 4: Download Button at the very bottom */
     }
 
     .canvas-container {
-        min-height: 340px;
+        min-height: 320px;
         padding: 0.5rem;
     }
 
