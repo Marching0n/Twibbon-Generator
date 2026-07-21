@@ -85,6 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
             canvas.width = canvasWidth;
             canvas.height = canvasHeight;
 
+            const canvasWrapper = document.querySelector('.canvas-wrapper');
+            if (canvasWrapper) {
+                canvasWrapper.style.aspectRatio = `${canvasWidth} / ${canvasHeight}`;
+            }
+
             // Update UI badges showing frame resolution
             if (frameResBadge) {
                 frameResBadge.textContent = `${canvasWidth} × ${canvasHeight} px`;
