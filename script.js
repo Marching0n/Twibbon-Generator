@@ -410,7 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCanvas();
 
         const link = document.createElement('a');
-        link.download = `twibbon-frame1-${canvasWidth}x${canvasHeight}-${Date.now()}.png`;
+        link.download = `twibbon-podkuansing-${canvasWidth}x${canvasHeight}-${Date.now()}.png`;
         link.href = canvas.toDataURL('image/png', 1.0);
         link.click();
 
