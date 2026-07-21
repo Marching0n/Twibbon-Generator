@@ -31,11 +31,11 @@
 
         <!-- Main Workspace Grid -->
         <main class="main-content">
-            <!-- Sidebar / Control Panel -->
-            <aside class="control-panel">
+            <!-- Sidebar / Control Panel Container -->
+            <div class="control-panel">
                 
                 <!-- Section 1: Upload Photo -->
-                <section class="panel-card">
+                <section class="panel-card upload-card">
                     <div class="card-header">
                         <span class="step-num">1</span>
                         <h2>Upload Photo</h2>
@@ -56,7 +56,7 @@
                 </section>
 
                 <!-- Section 2: Twibbon Frame -->
-                <section class="panel-card">
+                <section class="panel-card frame-card">
                     <div class="card-header">
                         <span class="step-num">2</span>
                         <h2>Active Twibbon Frame</h2>
@@ -75,7 +75,7 @@
                 </section>
 
                 <!-- Section 3: Photo Adjustments -->
-                <section class="panel-card" id="adjustmentsCard">
+                <section class="panel-card adjust-card" id="adjustmentsCard">
                     <div class="card-header">
                         <span class="step-num">3</span>
                         <h2>Adjust Photo</h2>
@@ -136,39 +136,39 @@
                     </div>
                 </section>
 
+                <!-- Live Interactive Canvas Display Area -->
+                <section class="canvas-viewport">
+                    <div class="viewport-header">
+                        <div class="viewport-title">
+                            <i class="fa-solid fa-eye"></i> Live Interactive Canvas Preview
+                        </div>
+                        <div class="canvas-info-badge">
+                            <i class="fa-solid fa-ruler-combined"></i> 1080 x 1080 px
+                        </div>
+                    </div>
+
+                    <div class="canvas-container" id="canvasContainer">
+                        <div class="canvas-wrapper">
+                            <canvas id="twibbonCanvas" width="1080" height="1080"></canvas>
+                            <div class="canvas-guide-overlay" id="canvasGuide">
+                                <i class="fa-solid fa-hand-pointer"></i>
+                                <span>Drag photo to adjust position &bull; Pinch or scroll to zoom</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="viewport-footer">
+                        <p class="hint-text"><i class="fa-solid fa-circle-info"></i> Tip: Click & drag photo to move, pinch or scroll to zoom.</p>
+                    </div>
+                </section>
+
                 <!-- Section 4: Export -->
                 <section class="panel-card export-card">
                     <button class="btn btn-gradient btn-lg btn-block" id="downloadBtn">
                         <i class="fa-solid fa-download"></i> Download High-Res PNG
                     </button>
                 </section>
-            </aside>
-
-            <!-- Preview Canvas Display Area -->
-            <section class="canvas-viewport">
-                <div class="viewport-header">
-                    <div class="viewport-title">
-                        <i class="fa-solid fa-eye"></i> Live Interactive Canvas Preview
-                    </div>
-                    <div class="canvas-info-badge">
-                        <i class="fa-solid fa-ruler-combined"></i> 1080 x 1080 px
-                    </div>
-                </div>
-
-                <div class="canvas-container" id="canvasContainer">
-                    <div class="canvas-wrapper">
-                        <canvas id="twibbonCanvas" width="1080" height="1080"></canvas>
-                        <div class="canvas-guide-overlay" id="canvasGuide">
-                            <i class="fa-solid fa-hand-pointer"></i>
-                            <span>Drag photo to adjust position &bull; Pinch or scroll to zoom</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="viewport-footer">
-                    <p class="hint-text"><i class="fa-solid fa-circle-info"></i> Tip: Click and drag directly on the canvas to move your photo smoothly.</p>
-                </div>
-            </section>
+            </div>
         </main>
     </div>
 

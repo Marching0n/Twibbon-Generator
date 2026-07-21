@@ -319,6 +319,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Touch Event Handlers (Single-finger drag & Multi-touch Pinch-Zoom)
+    const canvasContainerEl = document.getElementById('canvasContainer');
+
     function handleTouchStart(e) {
         if (e.touches.length === 2) {
             isPinching = true;
@@ -328,20 +330,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.touches[0].clientY - e.touches[1].clientY
             );
             initialPinchScale = state.scale;
-        } else if (e.touches.length === 1) {
-            isPinching = false;
+        } else if (e.touches.length === 1 && !isPinching) {
             startDrag(e);
         }
     }
 
     function handleTouchMove(e) {
-        if (e.touches.length === 2 && isPinching) {
+        if (e.touches.length === 2) {
             e.preventDefault();
             const currentDist = Math.hypot(
                 e.touches[0].clientX - e.touches[1].clientX,
                 e.touches[0].clientY - e.touches[1].clientY
             );
-            if (initialPinchDist > 0) {
+            
+            // Auto-initialize pinch dist if 2nd finger landed mid-gesture
+            if (!isPinching || initialPinchDist === 0) {
+                isPinching = true;
+                isDragging = false;
+                initialPinchDist = currentDist;
+                initialPinchScale = state.scale;
+            } else if (initialPinchDist > 0 && currentDist > 0) {
                 const scaleFactor = currentDist / initialPinchDist;
                 state.scale = Math.min(Math.max(0.1, initialPinchScale * scaleFactor), 4.0);
                 updateUIControls();
@@ -366,7 +374,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('mousemove', moveDrag);
     window.addEventListener('mouseup', stopDrag);
 
-    canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+    const touchArea = canvasContainerEl || canvas;
+    touchArea.addEventListener('touchstart', handleTouchStart, { passive: false });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('touchend', handleTouchEnd);
     window.addEventListener('touchcancel', handleTouchEnd);
