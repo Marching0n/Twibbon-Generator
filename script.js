@@ -115,8 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Canvas Drawing Engine
     // -------------------------------------------------------------
     function renderCanvas() {
-        // Clear Canvas
+        // Reset state & clear Canvas
+        ctx.filter = 'none';
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+        // 0. Base Solid White Background Layer (Ensures no hollow/transparent areas)
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
         // 1. Draw User Photo (Behind Frame)
         if (photoImg && photoImg.complete) {
@@ -409,17 +414,47 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // -------------------------------------------------------------
-    // Download Export Handler
+    // Download Export Handler (3-Layer Solid White Flattening)
     // -------------------------------------------------------------
     downloadBtn.addEventListener('click', () => {
-        renderCanvas();
+        // Create clean export canvas matching frame dimensions
+        const exportCanvas = document.createElement('canvas');
+        exportCanvas.width = canvasWidth;
+        exportCanvas.height = canvasHeight;
+        const eCtx = exportCanvas.getContext('2d');
 
+        // Layer 0: Base Solid White Background (Fills all hollow/transparent areas)
+        eCtx.fillStyle = '#ffffff';
+        eCtx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+        // Layer 1: User Photo
+        if (photoImg && photoImg.complete) {
+            eCtx.save();
+            eCtx.translate(state.x, state.y);
+            eCtx.rotate((state.rotation * Math.PI) / 180);
+            eCtx.scale(state.scale * state.flipH, state.scale * state.flipV);
+            eCtx.filter = `brightness(${state.brightness}%) contrast(${state.contrast}%)`;
+            const drawW = photoImg.width;
+            const drawH = photoImg.height;
+            eCtx.drawImage(photoImg, -drawW / 2, -drawH / 2, drawW, drawH);
+            eCtx.restore();
+        }
+
+        // Layer 2: Twibbon Frame (On Top)
+        if (frameImg && frameImg.complete) {
+            eCtx.save();
+            eCtx.filter = 'none';
+            eCtx.drawImage(frameImg, 0, 0, canvasWidth, canvasHeight);
+            eCtx.restore();
+        }
+
+        // Trigger Download with Solid White Background
         const link = document.createElement('a');
         link.download = `twibbon-podkuansing-${canvasWidth}x${canvasHeight}-${Date.now()}.png`;
-        link.href = canvas.toDataURL('image/png', 1.0);
+        link.href = exportCanvas.toDataURL('image/png', 1.0);
         link.click();
 
-        showToast('Downloading your Twibbon frame!');
+        showToast('Downloading your Twibbon with solid white background!');
     });
 
     // -------------------------------------------------------------
