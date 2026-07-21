@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = canvas.getContext('2d');
     
     // Dynamic Frame Resolution (defaults to frame 1 natural dimensions once loaded)
-    let canvasWidth = 1080;
-    let canvasHeight = 1080;
+    let canvasWidth = 900;
+    let canvasHeight = 1200;
 
     // State Variables
     let photoImg = null;
