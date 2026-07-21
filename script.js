@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initializing & Loading Twibbon Frame 1
     // -------------------------------------------------------------
     
-    // Load Twibbon Frame 1 as primary frame template
+    // Load Twibbon Frame 1 as primary frame template with cache-busting
     loadFrame('assets/frame1.png');
 
     // Create a default placeholder photo until user uploads one
@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         frameImg = new Image();
         frameImg.crossOrigin = 'anonymous';
         frameImg.onload = () => {
-            // Set canvas dimensions to fit exact resolution of frame image
+            // Set canvas dimensions to fit exact natural resolution of new frame image
             canvasWidth = frameImg.naturalWidth || frameImg.width || 1080;
             canvasHeight = frameImg.naturalHeight || frameImg.height || 1080;
 
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 canvasWrapper.style.aspectRatio = `${canvasWidth} / ${canvasHeight}`;
             }
 
-            // Update UI badges showing frame resolution
+            // Update UI badges showing exact frame resolution
             if (frameResBadge) {
                 frameResBadge.textContent = `${canvasWidth} × ${canvasHeight} px`;
             }
@@ -108,7 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
         frameImg.onerror = () => {
             showToast('Failed to load Twibbon frame 1 image');
         };
-        frameImg.src = src;
+        // Append timestamp parameter to force browser to load updated frame file
+        frameImg.src = src.includes('?') ? src : `${src}?t=${Date.now()}`;
     }
 
     // -------------------------------------------------------------
