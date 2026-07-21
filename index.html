@@ -31,8 +31,8 @@
 
         <!-- Main Workspace Grid -->
         <main class="main-content">
-            <!-- Sidebar / Control Panel Container -->
-            <div class="control-panel">
+            <!-- Sidebar / Control Panel -->
+            <aside class="control-panel">
                 
                 <!-- Section 1: Upload Photo -->
                 <section class="panel-card upload-card">
@@ -136,35 +136,35 @@
                     </div>
                 </section>
 
-                <!-- Live Interactive Canvas Display Area -->
-                <section class="canvas-viewport">
-                    <div class="viewport-header">
-                        <div class="viewport-title">
-                            <i class="fa-solid fa-eye"></i> Live Interactive Canvas Preview
-                        </div>
-                        <div class="canvas-info-badge">
-                            <i class="fa-solid fa-ruler-combined"></i> 1080 x 1080 px
-                        </div>
-                    </div>
-
-                    <div class="canvas-container" id="canvasContainer">
-                        <div class="canvas-wrapper">
-                            <canvas id="twibbonCanvas" width="1080" height="1080"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="viewport-footer">
-                        <p class="hint-text"><i class="fa-solid fa-circle-info"></i> Tip: Click & drag photo to move, pinch or scroll to zoom.</p>
-                    </div>
-                </section>
-
                 <!-- Section 4: Export -->
                 <section class="panel-card export-card">
                     <button class="btn btn-gradient btn-lg btn-block" id="downloadBtn">
                         <i class="fa-solid fa-download"></i> Download High-Res PNG
                     </button>
                 </section>
-            </div>
+            </aside>
+
+            <!-- Preview Canvas Display Area -->
+            <section class="canvas-viewport">
+                <div class="viewport-header">
+                    <div class="viewport-title">
+                        <i class="fa-solid fa-eye"></i> Live Interactive Canvas Preview
+                    </div>
+                    <div class="canvas-info-badge">
+                        <i class="fa-solid fa-ruler-combined"></i> 1080 x 1080 px
+                    </div>
+                </div>
+
+                <div class="canvas-container" id="canvasContainer">
+                    <div class="canvas-wrapper">
+                        <canvas id="twibbonCanvas" width="1080" height="1080"></canvas>
+                    </div>
+                </div>
+
+                <div class="viewport-footer">
+                    <p class="hint-text"><i class="fa-solid fa-circle-info"></i> Tip: Click & drag photo to move, pinch or scroll to zoom.</p>
+                </div>
+            </section>
         </main>
     </div>
 
