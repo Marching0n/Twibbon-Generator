@@ -581,24 +581,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
     cursor: grabbing;
 }
 
-.canvas-guide-overlay {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(8px);
-    border: 1px solid var(--border-color);
-    color: var(--text-main);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.78rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    pointer-events: none;
-    transition: var(--transition);
-}
+
 
 .viewport-footer {
     text-align: center;
